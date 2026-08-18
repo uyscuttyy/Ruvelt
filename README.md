@@ -46,3 +46,22 @@ and implemented in `contracts/src/RuveltJobs.sol`.
 
 The approved design is in `smart-contract-design.md`. The Foundry suite verifies the lifecycle,
 authorization, deadlines, accounting, cancellation, settlement, and withdrawal protections.
+
+## Deployed Contract
+
+The current BOT Chain Testnet deployment is recorded in
+`contracts/deployments/bot-chain-testnet.md`. The web client defaults to that deployment and uses
+the read-only RPC smoke check before release.
+
+Run the complete pre-handoff validation with:
+
+```bash
+set -a
+source .env
+set +a
+export BOT_CHAIN_ID=968
+export VITE_RUVELT_CONTRACT_ADDRESS=0xf13ad20A3e912978Ab683b95AAdD9832d008ae0c
+npm run final:audit
+```
+
+The final audit does not deploy contracts or submit wallet transactions.

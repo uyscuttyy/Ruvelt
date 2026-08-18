@@ -18,6 +18,11 @@
     "dev": "npm run dev --workspace @ruvelt/web",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "smoke:testnet": "bash scripts/phase14-smoke.sh",
+    "release:check": "bash scripts/phase15-release-check.sh",
+    "web:smoke": "bash scripts/phase16-web-smoke.sh",
+    "config:audit": "bash scripts/phase18-config-audit.sh",
+    "final:audit": "bash scripts/phase19-final-audit.sh",
     "test": "npm run test --workspaces --if-present && forge test --root contracts",
     "typecheck": "npm run typecheck --workspaces --if-present"
   },

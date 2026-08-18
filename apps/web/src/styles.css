@@ -39,7 +39,8 @@ p {
 .topbar,
 .intro,
 .grid,
-.next-step {
+.next-step,
+.wallet-strip {
   max-width: 1180px;
   margin-inline: auto;
 }
@@ -87,14 +88,248 @@ button {
   background: #d8ff55;
   font: inherit;
   font-weight: 700;
-  cursor: not-allowed;
-  opacity: 0.5;
+  cursor: pointer;
+}
+button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+.wallet-strip {
+  display: grid;
+  grid-template-columns: 1.4fr 0.7fr 0.9fr;
+  gap: 24px;
+  padding: 20px 0;
+  border-bottom: 1px solid #35403a;
+}
+.wallet-strip code {
+  margin-top: 8px;
+}
+.wallet-strip strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 14px;
+}
+.wallet-error {
+  color: #ff8c73;
 }
 .grid {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   gap: 16px;
   margin-top: 16px;
+}
+.job-composer {
+  max-width: 1180px;
+  margin: 16px auto 0;
+  border: 1px solid #667c58;
+  padding: 28px;
+  background: #172019;
+}
+.discovery {
+  max-width: 1180px;
+  margin: 16px auto 0;
+  padding: 28px;
+  border: 1px solid #35403a;
+}
+.review {
+  max-width: 1180px;
+  margin: 16px auto 0;
+  padding: 28px;
+  border: 1px solid #667c58;
+  background: #172019;
+}
+.settlement {
+  max-width: 1180px;
+  margin: 16px auto 0;
+  padding: 28px;
+  border: 1px solid #35403a;
+}
+.profile-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  max-width: 1180px;
+  margin: 16px auto 0;
+  padding: 28px;
+  border: 1px solid #35403a;
+}
+.profile-panel dl {
+  margin: 0;
+}
+.action-row,
+.withdraw-row {
+  display: grid;
+  grid-template-columns: 1fr minmax(180px, 280px) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-top: 1px solid #35403a;
+}
+.action-row p {
+  font-size: 13px;
+}
+.withdraw-row {
+  grid-template-columns: 1fr auto;
+  margin-top: 8px;
+}
+.withdraw-row strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 18px;
+}
+.review-job {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid #35403a;
+}
+.applicant {
+  display: grid;
+  grid-template-columns: 24px 1fr minmax(150px, 220px);
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-top: 1px solid #35403a;
+}
+.applicant > input {
+  width: 18px;
+  height: 18px;
+}
+.applicant-copy {
+  display: grid;
+  gap: 4px;
+}
+.applicant-copy a {
+  font-size: 12px;
+}
+.applicant .input-unit b {
+  padding-right: 12px;
+  color: #d8ff55;
+  font-size: 12px;
+}
+.button-secondary {
+  border: 1px solid #465348;
+  color: #e8ede8;
+  background: transparent;
+}
+.empty-state {
+  padding: 40px 0;
+  border-top: 1px solid #35403a;
+}
+.empty-state p {
+  margin-top: 8px;
+}
+.job-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.job-item {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid #35403a;
+  background: #121816;
+}
+.job-item h3 {
+  margin: 16px 0 8px;
+  font-size: 30px;
+  letter-spacing: 0;
+}
+.job-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #d8ff55;
+  font-size: 11px;
+  font-weight: 700;
+}
+.job-item dl {
+  margin-top: 20px;
+}
+.job-item dd {
+  max-width: 58%;
+  text-align: right;
+}
+.application-form {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid #35403a;
+}
+.composer-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+.composer-heading h2 {
+  margin-bottom: 0;
+}
+.job-composer form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.field {
+  display: grid;
+  gap: 8px;
+  color: #b9c2bc;
+  font-size: 13px;
+}
+.field-wide {
+  grid-column: 1 / -1;
+}
+input {
+  width: 100%;
+  border: 1px solid #465348;
+  border-radius: 0;
+  padding: 12px;
+  color: #e8ede8;
+  background: #101513;
+  font: inherit;
+}
+input:focus {
+  outline: 2px solid #d8ff55;
+  outline-offset: 1px;
+}
+.input-unit {
+  display: flex;
+  align-items: center;
+  border: 1px solid #465348;
+  background: #101513;
+}
+.input-unit input {
+  border: 0;
+}
+.input-unit strong {
+  padding-right: 12px;
+  color: #d8ff55;
+  font-size: 12px;
+}
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-top: 8px;
+  padding-top: 20px;
+  border-top: 1px solid #35403a;
+}
+.form-actions button {
+  flex: 0 0 auto;
+}
+.form-error,
+.form-success {
+  margin-top: 16px;
+  font-size: 13px;
+}
+.form-error {
+  color: #ff8c73;
+}
+.form-success {
+  color: #d8ff55;
 }
 .panel,
 .next-step {
@@ -174,6 +409,9 @@ dd {
   .next-step {
     display: block;
   }
+  .wallet-strip {
+    grid-template-columns: 1fr;
+  }
   .network-pill {
     display: inline-block;
     margin-top: 26px;
@@ -183,6 +421,30 @@ dd {
   }
   .grid {
     grid-template-columns: 1fr;
+  }
+  .job-composer form {
+    grid-template-columns: 1fr;
+  }
+  .job-list {
+    grid-template-columns: 1fr;
+  }
+  .applicant {
+    grid-template-columns: 24px 1fr;
+  }
+  .profile-panel {
+    grid-template-columns: 1fr;
+  }
+  .applicant .input-unit {
+    grid-column: 1 / -1;
+  }
+  .field-wide {
+    grid-column: auto;
+  }
+  .form-actions {
+    display: block;
+  }
+  .form-actions button {
+    margin-top: 18px;
   }
   .next-step .phase {
     display: inline-block;
