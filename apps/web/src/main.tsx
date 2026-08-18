@@ -215,6 +215,24 @@ function App() {
     }
   }
 
+  async function disconnectWallet() {
+    const provider = window.ethereum;
+    setAccount(undefined);
+    setWalletChainId(undefined);
+    setBalance(undefined);
+    setWalletStatus(provider ? 'idle' : 'unsupported');
+    setWalletMessage('Wallet disconnected from this session.');
+    try {
+      await provider?.request({
+        method: 'wallet_revokePermissions',
+        params: [{ eth_accounts: {} }],
+      });
+    } catch {
+      // Some injected wallets do not support permission revocation; local state
+      // is still cleared and accountsChanged remains the source of truth.
+    }
+  }
+
   async function createJob(input: CreateJobInput) {
     const provider = window.ethereum;
     if (!provider || !account) {
@@ -568,38 +586,29 @@ function App() {
     <main>
       <header className="topbar">
         <div>
-          <p className="eyebrow">Ruvelt / Network Console</p>
+          <p className="eyebrow">Ruvelt</p>
           <h1>
-            Coordinate work.
+            Find work.
             <br />
-            Settle on-chain.
+            <span>Settle on-chain.</span>
           </h1>
         </div>
-        <span className={`network-pill ${network}`}>
-          <span className="dot" />
-          {network === 'checking'
-            ? 'Checking network'
-            : network === 'online'
-              ? 'Network online'
-              : 'RPC offline'}
-        </span>
-      </header>
-
-      <section className="intro">
-        <p>
-          Multi-agent work coordination and native-asset escrow on BOT Chain.
-        </p>
         <button
           type="button"
-          onClick={() => void connectWallet()}
+          onClick={() => void (account ? disconnectWallet() : connectWallet())}
           disabled={walletStatus === 'connecting'}
         >
           {walletStatus === 'connecting'
             ? 'Connecting…'
             : account
-              ? 'Wallet connected'
+              ? 'Disconnect wallet'
               : 'Connect wallet'}
         </button>
+      </header>
+
+      <section className="intro">
+        <p>The economic layer for agent work on BOT Chain.</p>
+        <p>Post jobs. Coordinate agents. Settle onchain.</p>
       </section>
 
       {(account || walletMessage || walletStatus === 'unsupported') && (
@@ -638,41 +647,6 @@ function App() {
         totalClaimable={totalClaimable}
         explorerUrl={config.explorerUrl}
       />
-
-      <section className="grid" aria-label="Deployment status">
-        <article className="panel panel-primary">
-          <p className="label">Deployed protocol</p>
-          <h2>RuveltJobs</h2>
-          <a href={explorerContract} target="_blank" rel="noreferrer">
-            View contract on BOT Scan ↗
-          </a>
-          <code>{config.contractAddress}</code>
-        </article>
-        <article className="panel">
-          <p className="label">Network</p>
-          <h2>{config.chainName}</h2>
-          <dl>
-            <div>
-              <dt>Chain ID</dt>
-              <dd>{rpcChainId ?? config.chainId}</dd>
-            </div>
-            <div>
-              <dt>Currency</dt>
-              <dd>BOT</dd>
-            </div>
-            <div>
-              <dt>RPC status</dt>
-              <dd>
-                {network === 'online'
-                  ? 'Verified'
-                  : network === 'checking'
-                    ? 'Checking'
-                    : 'Unavailable'}
-              </dd>
-            </div>
-          </dl>
-        </article>
-      </section>
 
       <CreateJobForm
         connected={Boolean(account) && walletChainId === config.chainId}
@@ -715,6 +689,44 @@ function App() {
         onCancel={(id) => runJobAction('cancelJob', id)}
         onWithdraw={withdrawClaim}
       />
+
+      <section
+        className="grid deployment-details"
+        aria-label="Deployment status"
+      >
+        <article className="panel panel-primary">
+          <p className="label">Deployed protocol</p>
+          <h2>RuveltJobs</h2>
+          <a href={explorerContract} target="_blank" rel="noreferrer">
+            View contract on BOT Scan ↗
+          </a>
+          <code>{config.contractAddress}</code>
+        </article>
+        <article className="panel">
+          <p className="label">Network</p>
+          <h2>{config.chainName}</h2>
+          <dl>
+            <div>
+              <dt>Chain ID</dt>
+              <dd>{rpcChainId ?? config.chainId}</dd>
+            </div>
+            <div>
+              <dt>Currency</dt>
+              <dd>BOT</dd>
+            </div>
+            <div>
+              <dt>RPC status</dt>
+              <dd>
+                {network === 'online'
+                  ? 'Verified'
+                  : network === 'checking'
+                    ? 'Checking'
+                    : 'Unavailable'}
+              </dd>
+            </div>
+          </dl>
+        </article>
+      </section>
 
       <section className="next-step">
         <div>

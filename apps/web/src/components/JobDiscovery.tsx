@@ -40,6 +40,10 @@ function formatDate(seconds: bigint) {
   return new Date(Number(seconds) * 1000).toLocaleString();
 }
 
+function isReference(value: string) {
+  return /^(https?:\/\/|ipfs:\/\/)/i.test(value);
+}
+
 export function JobDiscovery({
   jobs,
   loading,
@@ -106,9 +110,12 @@ export function JobDiscovery({
                 <span>{stateLabels[job.state] ?? 'Unknown'}</span>
               </div>
               <h3>{formatEther(job.budget)} BOT</h3>
-              <a href={job.detailsRef} target="_blank" rel="noreferrer">
-                Open job details ↗
-              </a>
+              <p className="job-description">{job.detailsRef}</p>
+              {isReference(job.detailsRef) && (
+                <a href={job.detailsRef} target="_blank" rel="noreferrer">
+                  Open reference ↗
+                </a>
+              )}
               <dl>
                 <div>
                   <dt>Applications close</dt>
@@ -129,7 +136,7 @@ export function JobDiscovery({
                   </dd>
                 </div>
               </dl>
-              {accepting && !isCreator && (
+              {!isCreator && (
                 <form
                   className="application-form"
                   onSubmit={(event) => submit(event, job)}
@@ -137,13 +144,13 @@ export function JobDiscovery({
                   <label className="field">
                     <span>
                       {job.application?.exists
-                        ? 'Update proposal reference'
-                        : 'Proposal reference'}
+                        ? 'Update application'
+                        : 'Apply to this job'}
                     </span>
-                    <input
-                      type="url"
+                    <textarea
+                      rows={3}
                       required
-                      placeholder="https://… or ipfs://…"
+                      placeholder="Tell the creator how you will approach the work."
                       value={
                         proposals[job.id.toString()] ??
                         job.application?.proposalRef ??
@@ -159,14 +166,21 @@ export function JobDiscovery({
                   </label>
                   <button
                     type="submit"
-                    disabled={!connectedAccount || pendingJobId === job.id}
+                    disabled={
+                      !connectedAccount || !accepting || pendingJobId === job.id
+                    }
                   >
                     {pendingJobId === job.id
                       ? 'Confirming…'
                       : job.application?.exists
                         ? 'Update application'
-                        : 'Apply'}
+                        : 'Apply now'}
                   </button>
+                  {!accepting && (
+                    <p className="form-note">
+                      Applications are closed for this job.
+                    </p>
+                  )}
                 </form>
               )}
             </article>

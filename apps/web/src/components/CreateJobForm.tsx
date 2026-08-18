@@ -17,8 +17,36 @@ type Props = {
   onSubmit(input: CreateJobInput): Promise<void>;
 };
 
-function unixSeconds(value: string): bigint {
-  return BigInt(Math.floor(new Date(value).getTime() / 1000));
+function unixSeconds(
+  date: string,
+  hour: string,
+  minute: string,
+  period: string,
+): bigint {
+  const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(date);
+  if (!match || !hour || !minute || !period) return 0n;
+  const [, day, month, year] = match;
+  const hours = (Number(hour) % 12) + (period === 'PM' ? 12 : 0);
+  const minutes = Number(minute);
+  if (minutes > 59) return 0n;
+  const timestamp = new Date(
+    Number(year),
+    Number(month) - 1,
+    Number(day),
+    hours,
+    minutes,
+  );
+  if (
+    timestamp.getFullYear() !== Number(year) ||
+    timestamp.getMonth() !== Number(month) - 1 ||
+    timestamp.getDate() !== Number(day) ||
+    timestamp.getHours() !== hours ||
+    timestamp.getMinutes() !== minutes
+  )
+    return 0n;
+  return Number.isNaN(timestamp.getTime())
+    ? 0n
+    : BigInt(Math.floor(timestamp.getTime() / 1000));
 }
 
 export function CreateJobForm({
@@ -31,8 +59,14 @@ export function CreateJobForm({
 }: Props) {
   const [detailsRef, setDetailsRef] = useState('');
   const [budget, setBudget] = useState('');
-  const [applicationDeadline, setApplicationDeadline] = useState('');
-  const [deliveryDeadline, setDeliveryDeadline] = useState('');
+  const [applicationDate, setApplicationDate] = useState('');
+  const [applicationHour, setApplicationHour] = useState('');
+  const [applicationMinute, setApplicationMinute] = useState('00');
+  const [applicationPeriod, setApplicationPeriod] = useState('PM');
+  const [deliveryDate, setDeliveryDate] = useState('');
+  const [deliveryHour, setDeliveryHour] = useState('');
+  const [deliveryMinute, setDeliveryMinute] = useState('00');
+  const [deliveryPeriod, setDeliveryPeriod] = useState('AM');
   const [reviewHours, setReviewHours] = useState('24');
   const [validationError, setValidationError] = useState('');
 
@@ -40,13 +74,23 @@ export function CreateJobForm({
     event.preventDefault();
     setValidationError('');
 
-    const application = unixSeconds(applicationDeadline);
-    const delivery = unixSeconds(deliveryDeadline);
+    const application = unixSeconds(
+      applicationDate,
+      applicationHour,
+      applicationMinute,
+      applicationPeriod,
+    );
+    const delivery = unixSeconds(
+      deliveryDate,
+      deliveryHour,
+      deliveryMinute,
+      deliveryPeriod,
+    );
     const now = BigInt(Math.floor(Date.now() / 1000));
     const review = BigInt(reviewHours) * 60n * 60n;
 
     if (!detailsRef.trim())
-      return setValidationError('Enter a public job details reference.');
+      return setValidationError('Describe the work or add a reference.');
     if (!budget || Number(budget) <= 0)
       return setValidationError('Budget must be greater than zero.');
     if (application <= now)
@@ -80,11 +124,11 @@ export function CreateJobForm({
       </div>
       <form onSubmit={(event) => void submit(event)}>
         <label className="field field-wide">
-          <span>Job details reference</span>
-          <input
-            type="url"
+          <span>What needs to be done</span>
+          <textarea
             required
-            placeholder="https://… or ipfs://…"
+            rows={4}
+            placeholder="Describe the task, outcome, or attach an https:// or ipfs:// reference."
             value={detailsRef}
             onChange={(event) => setDetailsRef(event.target.value)}
           />
@@ -120,22 +164,86 @@ export function CreateJobForm({
           </div>
         </label>
         <label className="field">
-          <span>Applications close</span>
-          <input
-            type="datetime-local"
-            required
-            value={applicationDeadline}
-            onChange={(event) => setApplicationDeadline(event.target.value)}
-          />
+          <span>
+            Applications close <small>(dd/mm/yyyy)</small>
+          </span>
+          <div className="date-fields">
+            <input
+              required
+              inputMode="numeric"
+              placeholder="dd/mm/yyyy"
+              value={applicationDate}
+              onChange={(event) => setApplicationDate(event.target.value)}
+            />
+            <select
+              required
+              value={applicationHour}
+              onChange={(event) => setApplicationHour(event.target.value)}
+            >
+              <option value="">Hour</option>
+              {Array.from({ length: 12 }, (_, index) => (
+                <option key={index + 1}>
+                  {String(index + 1).padStart(2, '0')}
+                </option>
+              ))}
+            </select>
+            <select
+              value={applicationMinute}
+              onChange={(event) => setApplicationMinute(event.target.value)}
+            >
+              {['00', '15', '30', '45'].map((minute) => (
+                <option key={minute}>{minute}</option>
+              ))}
+            </select>
+            <select
+              value={applicationPeriod}
+              onChange={(event) => setApplicationPeriod(event.target.value)}
+            >
+              <option>AM</option>
+              <option>PM</option>
+            </select>
+          </div>
         </label>
         <label className="field">
-          <span>Delivery due</span>
-          <input
-            type="datetime-local"
-            required
-            value={deliveryDeadline}
-            onChange={(event) => setDeliveryDeadline(event.target.value)}
-          />
+          <span>
+            Delivery due <small>(dd/mm/yyyy)</small>
+          </span>
+          <div className="date-fields">
+            <input
+              required
+              inputMode="numeric"
+              placeholder="dd/mm/yyyy"
+              value={deliveryDate}
+              onChange={(event) => setDeliveryDate(event.target.value)}
+            />
+            <select
+              required
+              value={deliveryHour}
+              onChange={(event) => setDeliveryHour(event.target.value)}
+            >
+              <option value="">Hour</option>
+              {Array.from({ length: 12 }, (_, index) => (
+                <option key={index + 1}>
+                  {String(index + 1).padStart(2, '0')}
+                </option>
+              ))}
+            </select>
+            <select
+              value={deliveryMinute}
+              onChange={(event) => setDeliveryMinute(event.target.value)}
+            >
+              {['00', '15', '30', '45'].map((minute) => (
+                <option key={minute}>{minute}</option>
+              ))}
+            </select>
+            <select
+              value={deliveryPeriod}
+              onChange={(event) => setDeliveryPeriod(event.target.value)}
+            >
+              <option>AM</option>
+              <option>PM</option>
+            </select>
+          </div>
         </label>
         <div className="form-actions field-wide">
           <p>
