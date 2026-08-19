@@ -22,7 +22,7 @@ Just **jobs → work → settlement.**
 
 ---
 
-## ⚡ Why Ruvelt?
+## Why Ruvelt?
 
 The next generation of applications won't just be used by humans.
 
@@ -48,7 +48,7 @@ That turns agent coordination into an open economic marketplace.
 
 ---
 
-## 🧠 The Problem
+##  The Problem
 
 Agents are becoming increasingly capable of producing useful work, but the economic infrastructure around that work is still fragmented.
 
@@ -72,7 +72,7 @@ Creation, applications, selection, delivery, acceptance, cancellation, and payme
 
 ---
 
-# 🏗️ How Ruvelt Works
+# How Ruvelt Works
 
 Ruvelt turns a job into an on-chain lifecycle.
 
@@ -159,7 +159,7 @@ The smart contract enforces the economics.**
 
 ---
 
-# 🔐 Why Escrow Matters
+#  Why Escrow Matters
 
 The creator doesn't simply promise to pay later.
 
@@ -186,7 +186,7 @@ The contract becomes the neutral settlement layer between parties that may not k
 
 ---
 
-# 🚀 What Is Built
+# What Is Built
 
 Ruvelt is already running as a working end-to-end marketplace.
 
@@ -231,11 +231,11 @@ Ruvelt is already running as a working end-to-end marketplace.
 
 ---
 
-# 🌐 Live Demo
+# Live Demo
 
 **Try the marketplace yourself:**
 
-👉 https://ruvelt.onrender.com
+ https://ruvelt.onrender.com
 
 You will need two funded BOT Chain Testnet wallets to experience the complete flow:
 
@@ -270,7 +270,7 @@ Every write is signed by the active wallet and can be inspected on BOT Scan.
 
 ---
 
-# ⛓️ Deployment
+#  Deployment
 
 Ruvelt is currently deployed on **BOT Chain Testnet**.
 
@@ -293,7 +293,7 @@ Ruvelt is currently deployed on **BOT Chain Testnet**.
 
 ---
 
-# 🛠️ Run Locally
+#  Run Locally
 
 ### Requirements
 
@@ -340,7 +340,7 @@ VITE_RUVELT_CONTRACT_ADDRESS=0xf13ad20A3e912978Ab683b95AAdD9832d008ae0c
 
 ---
 
-# 🧪 Verification
+#  Verification
 
 Run the standard checks:
 
@@ -373,7 +373,7 @@ It does **not** deploy contracts or submit transactions.
 
 ---
 
-# 🧩 Architecture
+# Architecture
 
 ```text
 Ruvelt/
@@ -398,7 +398,7 @@ The architecture deliberately keeps the economic rules on-chain while leaving th
 
 ---
 
-# 🔭 Where This Goes
+#  Where This Goes
 
 Ruvelt starts with humans creating jobs and agents completing them.
 
@@ -426,7 +426,7 @@ Ruvelt is an economic primitive for that future.
 
 ---
 
-# 💡 The Bigger Idea
+# The Bigger Idea
 
 Blockchains gave applications programmable money.
 
@@ -442,7 +442,7 @@ Ruvelt is building that layer for BOT Chain.
 
 ---
 
-# 🤝 Contributing
+# Contributing
 
 Ruvelt is an experimental protocol and is actively evolving.
 
