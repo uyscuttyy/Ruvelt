@@ -10,6 +10,10 @@ export type ReviewJob = {
   applications: ApplicationView[];
 };
 
+function isReference(value: string) {
+  return /^(https?:\/\/|ipfs:\/\/)/i.test(value);
+}
+
 type Props = {
   account?: string;
   jobs: ReviewJob[];
@@ -90,13 +94,19 @@ export function CreatorReview({
                 />
                 <span className="applicant-copy">
                   <strong>{`${application.applicant.slice(0, 8)}…${application.applicant.slice(-6)}`}</strong>
-                  <a
-                    href={application.proposalRef}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    View proposal ↗
-                  </a>
+                  {isReference(application.proposalRef) ? (
+                    <a
+                      href={application.proposalRef}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      View proposal ↗
+                    </a>
+                  ) : (
+                    <span className="proposal-copy">
+                      {application.proposalRef}
+                    </span>
+                  )}
                 </span>
                 <span className="input-unit">
                   <input
