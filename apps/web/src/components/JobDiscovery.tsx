@@ -1,5 +1,5 @@
 import { formatEther } from 'viem';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { JobView } from './JobTypes';
 
 type Props = {
@@ -7,6 +7,7 @@ type Props = {
   loading: boolean;
   preview?: boolean;
   connectedAccount?: string;
+  preserveOrder?: boolean;
 };
 
 function actionFor(job: JobView) {
@@ -29,6 +30,15 @@ export function JobRow({
   job: JobView;
   connectedAccount?: string;
 }) {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    if (!open) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpen(false);
+    };
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [open]);
   const action = actionFor(job);
   const selected = Boolean(
     connectedAccount &&
@@ -43,57 +53,94 @@ export function JobRow({
       ? 'Application submitted'
       : 'No application from this wallet';
   return (
-    <div
-      className="job-row"
-      tabIndex={0}
-      aria-label={`Inspect job: ${job.detailsRef}`}
-    >
-      <div className="job-row-main">
-        <strong className="job-row-title">{shortTitle(job.detailsRef)}</strong>
-        <span className="job-row-amount">{formatEther(job.budget)} BOT</span>
-        {action.active ? (
-          <a
-            className="job-row-action"
-            href={`/jobs/${job.id.toString()}`}
-            onClick={(event) => event.stopPropagation()}
-          >
-            {action.label} <span aria-hidden="true">→</span>
-          </a>
-        ) : (
+    <>
+      <button
+        className="job-card"
+        type="button"
+        onClick={() => setOpen(true)}
+        aria-label={`View job: ${job.detailsRef}`}
+      >
+        <div className="job-row-main">
+          <strong className="job-row-title">
+            {shortTitle(job.detailsRef)}
+          </strong>
+          <span className="job-row-amount">{formatEther(job.budget)} BOT</span>
           <span className={`job-row-status state-${job.state}`}>
             {action.label}
           </span>
-        )}
-      </div>
-      <div className="job-row-tooltip" role="tooltip">
-        <strong>{job.detailsRef}</strong>
-        <p>{relationship}</p>
-        <dl>
-          <div>
-            <dt>Budget</dt>
-            <dd>{formatEther(job.budget)} BOT</dd>
-          </div>
-          <div>
-            <dt>Applications close</dt>
-            <dd>
+          <div className="job-card-preview" aria-hidden="true">
+            <span>
+              Applications close:{' '}
               {new Date(
                 Number(job.applicationDeadline) * 1000,
               ).toLocaleString()}
-            </dd>
-          </div>
-          <div>
-            <dt>Delivery due</dt>
-            <dd>
+            </span>
+            <span>
+              Delivery:{' '}
               {new Date(Number(job.deliveryDeadline) * 1000).toLocaleString()}
-            </dd>
+            </span>
+            <span>Click to view full job</span>
           </div>
-          <div>
-            <dt>Status</dt>
-            <dd>{action.label}</dd>
-          </div>
-        </dl>
-      </div>
-    </div>
+        </div>
+      </button>
+      {open && (
+        <div
+          className="job-modal-backdrop"
+          role="presentation"
+          onMouseDown={() => setOpen(false)}
+        >
+          <section
+            className="job-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-label={job.detailsRef}
+            onMouseDown={(event) => event.stopPropagation()}
+          >
+            <button
+              className="job-modal-close"
+              type="button"
+              onClick={() => setOpen(false)}
+              aria-label="Close job details"
+            >
+              ×
+            </button>
+            <p className="landing-kicker">Job #{job.id.toString()}</p>
+            <h2>{job.detailsRef}</h2>
+            <div className="job-modal-summary">
+              <strong>{formatEther(job.budget)} BOT</strong>
+              <span>{action.label}</span>
+            </div>
+            <p className="job-modal-label">Job brief</p>
+            <p className="job-modal-copy">{job.detailsRef}</p>
+            <dl className="job-modal-facts">
+              <div>
+                <dt>Applications close</dt>
+                <dd>
+                  {new Date(
+                    Number(job.applicationDeadline) * 1000,
+                  ).toLocaleString()}
+                </dd>
+              </div>
+              <div>
+                <dt>Delivery due</dt>
+                <dd>
+                  {new Date(
+                    Number(job.deliveryDeadline) * 1000,
+                  ).toLocaleString()}
+                </dd>
+              </div>
+              <div>
+                <dt>Wallet status</dt>
+                <dd>{relationship}</dd>
+              </div>
+            </dl>
+            <a className="job-modal-link" href={`/jobs/${job.id.toString()}`}>
+              View full job and application →
+            </a>
+          </section>
+        </div>
+      )}
+    </>
   );
 }
 
@@ -102,8 +149,11 @@ export function JobDiscovery({
   loading,
   preview = false,
   connectedAccount,
+  preserveOrder = false,
 }: Props) {
-  const ordered = [...jobs].sort((a, b) => Number(b.createdAt - a.createdAt));
+  const ordered = preserveOrder
+    ? jobs
+    : [...jobs].sort((a, b) => Number(b.createdAt - a.createdAt));
   const visible = preview ? ordered.slice(0, 4) : ordered;
   return (
     <section className="discovery" aria-labelledby="discovery-title">

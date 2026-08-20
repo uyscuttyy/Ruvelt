@@ -614,7 +614,9 @@ function MarketplaceApp() {
         />
       );
     }
-    return <JobsPage jobs={jobs} loading={jobsLoading} />;
+    return (
+      <JobsPage jobs={jobs} loading={jobsLoading} connectedAccount={account} />
+    );
   }
 
   return (
