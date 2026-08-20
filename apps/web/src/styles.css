@@ -274,6 +274,422 @@ a,
   }
 }
 
+/* Product landing */
+.landing {
+  padding: 0;
+  overflow: hidden;
+  background: #0f0f11;
+}
+.landing-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 32px;
+  min-height: 72px;
+  padding: 0 clamp(20px, 5vw, 72px);
+  border-bottom: 1px solid rgba(238, 238, 240, 0.1);
+  background: rgba(15, 15, 17, 0.9);
+  backdrop-filter: blur(16px);
+}
+.landing-brand {
+  color: #eeeef0;
+  font-family: 'Syne', sans-serif;
+  font-size: 25px;
+  font-weight: 800;
+  text-decoration: none;
+}
+.landing-brand span {
+  color: #c9ff4a;
+}
+.landing-links,
+.landing-footer > div {
+  display: flex;
+  gap: 28px;
+}
+.landing-links a,
+.landing-footer a {
+  color: #a0a0ab;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+}
+.landing-links a:hover,
+.landing-footer a:hover {
+  color: #c9ff4a;
+}
+.landing-launch {
+  justify-self: end;
+  padding: 11px 16px;
+  border: 1px solid #c9ff4a;
+  border-radius: 2px;
+  color: #0f0f11;
+  background: #c9ff4a;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    transform 160ms ease,
+    background 160ms ease;
+}
+.landing-launch:hover,
+.landing-primary:hover {
+  transform: scale(0.95);
+  color: #eeeef0;
+  background: #ff553d;
+  border-color: #ff553d;
+}
+.landing-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: min(780px, calc(100vh - 72px));
+  padding: clamp(72px, 10vw, 140px) clamp(20px, 7vw, 110px);
+  isolation: isolate;
+  background-image:
+    linear-gradient(
+      90deg,
+      #0f0f11 0%,
+      rgba(15, 15, 17, 0.96) 38%,
+      rgba(15, 15, 17, 0.5) 72%,
+      rgba(15, 15, 17, 0.18) 100%
+    ),
+    url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=85&w=2200&auto=format&fit=crop');
+  background-position: center;
+  background-size: cover;
+}
+.landing-hero::after {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: -1;
+  height: 160px;
+  content: '';
+  background: linear-gradient(transparent, #0f0f11);
+}
+.landing-hero-copy {
+  max-width: 820px;
+}
+.landing-kicker {
+  color: #c9ff4a;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.landing-hero h1 {
+  max-width: 870px;
+  margin: 26px 0 0;
+  font-size: clamp(46px, 7vw, 92px);
+  line-height: 0.98;
+}
+.landing-hero h1 span {
+  color: #eeeef0;
+}
+.landing-lead {
+  max-width: 610px;
+  margin-top: 28px;
+  color: #c6c6cc;
+  font-size: clamp(17px, 2vw, 21px);
+  line-height: 1.55;
+}
+.landing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 34px;
+}
+.landing-primary,
+.landing-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 19px;
+  border: 1px solid #c9ff4a;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    transform 160ms ease,
+    background 160ms ease,
+    color 160ms ease;
+}
+.landing-primary {
+  color: #0f0f11;
+  background: #c9ff4a;
+}
+.landing-secondary {
+  border-color: rgba(238, 238, 240, 0.28);
+  color: #eeeef0;
+  background: rgba(15, 15, 17, 0.42);
+}
+.landing-secondary:hover {
+  transform: scale(0.95);
+  border-color: #eeeef0;
+}
+.landing-chain-mark {
+  position: absolute;
+  right: clamp(20px, 6vw, 90px);
+  bottom: 56px;
+  display: grid;
+  gap: 2px;
+  padding-left: 18px;
+  border-left: 2px solid #c9ff4a;
+}
+.landing-chain-mark span {
+  color: #a0a0ab;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.landing-chain-mark strong {
+  font-family: 'Syne', sans-serif;
+  font-size: 24px;
+}
+.landing-statement,
+.landing-flow,
+.landing-use-cases,
+.landing-proof,
+.landing-final {
+  padding: clamp(80px, 11vw, 150px) clamp(20px, 7vw, 110px);
+  border-top: 1px solid #2a2a2f;
+}
+.landing-statement h2,
+.landing-section-heading h2,
+.landing-bot h2,
+.landing-proof h2,
+.landing-final h2 {
+  max-width: 900px;
+  margin: 22px 0 0;
+  font-size: clamp(36px, 5vw, 66px);
+  line-height: 1.05;
+}
+.landing-statement h2 span {
+  color: #6c6c74;
+}
+.landing-statement > p:last-child {
+  max-width: 700px;
+  margin: 34px 0 0 auto;
+  font-size: 20px;
+  line-height: 1.7;
+}
+.landing-section-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.7fr);
+  column-gap: 70px;
+  align-items: end;
+}
+.landing-section-heading .landing-kicker {
+  grid-column: 1/-1;
+}
+.landing-section-heading > p:last-child {
+  padding-bottom: 8px;
+  font-size: 17px;
+  line-height: 1.6;
+}
+.workflow-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 62px;
+  border-top: 1px solid #34343a;
+  border-left: 1px solid #34343a;
+}
+.workflow-step {
+  min-height: 245px;
+  padding: 26px;
+  border-right: 1px solid #34343a;
+  border-bottom: 1px solid #34343a;
+}
+.workflow-step > span,
+.use-case-list span {
+  color: #6c6c74;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+}
+.workflow-step h3 {
+  margin: 52px 0 12px;
+  font-size: 25px;
+}
+.workflow-step p {
+  max-width: 280px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.workflow-step:hover h3 {
+  color: #c9ff4a;
+}
+.landing-bot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.85fr);
+  gap: clamp(60px, 9vw, 130px);
+  align-items: center;
+  padding: clamp(80px, 11vw, 150px) clamp(20px, 7vw, 110px);
+  color: #0f0f11;
+  background: #c9ff4a;
+}
+.landing-bot .landing-kicker,
+.landing-bot p {
+  color: #34343a;
+}
+.landing-bot-copy > p:last-child {
+  max-width: 650px;
+  margin-top: 28px;
+  font-size: 18px;
+  line-height: 1.7;
+}
+.economic-loop {
+  display: grid;
+  border-top: 1px solid rgba(15, 15, 17, 0.4);
+}
+.economic-loop div {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  gap: 24px;
+  align-items: center;
+  padding: 22px 0;
+  border-bottom: 1px solid rgba(15, 15, 17, 0.4);
+}
+.economic-loop span {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+}
+.economic-loop strong {
+  font-family: 'Syne', sans-serif;
+  font-size: 25px;
+}
+.use-case-list {
+  margin-top: 60px;
+}
+.use-case-list div {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 30px;
+  align-items: center;
+  padding: 24px 0;
+  border-top: 1px solid #2a2a2f;
+}
+.use-case-list div:last-child {
+  border-bottom: 1px solid #2a2a2f;
+}
+.use-case-list strong {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(22px, 3vw, 34px);
+}
+.landing-proof {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.85fr);
+  gap: clamp(60px, 9vw, 130px);
+  align-items: start;
+  background: #1a1a1e;
+}
+.landing-proof > div > p:not(.landing-kicker) {
+  max-width: 650px;
+  margin: 28px 0 34px;
+  font-size: 18px;
+  line-height: 1.7;
+}
+.proof-ledger {
+  margin: 0;
+  border-top: 1px solid #3a3a40;
+}
+.proof-ledger div {
+  padding: 17px 0;
+  border-color: #3a3a40;
+}
+.proof-ledger dt {
+  color: #6c6c74;
+}
+.proof-ledger dd {
+  color: #eeeef0;
+  font-weight: 600;
+}
+.landing-final {
+  min-height: 540px;
+  text-align: center;
+  background-image:
+    linear-gradient(rgba(15, 15, 17, 0.78), rgba(15, 15, 17, 0.9)),
+    url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=85&w=2000&auto=format&fit=crop');
+  background-position: center;
+  background-size: cover;
+}
+.landing-final h2 {
+  margin-inline: auto;
+}
+.landing-final .landing-primary {
+  margin-top: 36px;
+}
+.landing-footer {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 40px;
+  align-items: center;
+  padding: 44px clamp(20px, 7vw, 110px);
+  border-top: 1px solid #2a2a2f;
+}
+.landing-footer p {
+  font-size: 13px;
+}
+@media (max-width: 860px) {
+  .landing-nav {
+    grid-template-columns: 1fr auto;
+  }
+  .landing-links {
+    display: none;
+  }
+  .landing-chain-mark {
+    display: none;
+  }
+  .landing-section-heading,
+  .landing-bot,
+  .landing-proof {
+    grid-template-columns: 1fr;
+  }
+  .landing-section-heading > p:last-child {
+    margin-top: 20px;
+  }
+  .workflow-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .landing-footer {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .landing-launch {
+    padding: 10px 12px;
+  }
+  .landing-hero {
+    align-items: flex-end;
+    min-height: 660px;
+    padding-bottom: 74px;
+    background-position: 62% center;
+  }
+  .landing-hero h1 {
+    font-size: 43px;
+  }
+  .workflow-list {
+    grid-template-columns: 1fr;
+  }
+  .workflow-step {
+    min-height: 210px;
+  }
+  .landing-statement > p:last-child {
+    margin-left: 0;
+    font-size: 17px;
+  }
+  .use-case-list div {
+    grid-template-columns: 45px 1fr;
+    gap: 14px;
+  }
+  .landing-footer > div {
+    flex-wrap: wrap;
+  }
+}
+
 .topbar .eyebrow {
   margin: 0 0 24px;
 }
@@ -809,6 +1225,167 @@ dd {
   }
 }
 
+/* App-only editorial redesign. Landing page selectors are intentionally untouched. */
+.marketplace-shell {
+  padding: 0 clamp(20px, 5vw, 76px) 100px;
+  background: #0f0f11;
+}
+.marketplace-shell .app-nav,
+.marketplace-shell .topbar,
+.marketplace-shell .intro,
+.marketplace-shell .wallet-strip,
+.marketplace-shell .profile-panel,
+.marketplace-shell .job-composer,
+.marketplace-shell .discovery,
+.marketplace-shell .review,
+.marketplace-shell .settlement,
+.marketplace-shell .deployment-details,
+.marketplace-shell .next-step {
+  max-width: 1180px;
+  margin-inline: auto;
+}
+.marketplace-shell .topbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  min-height: 390px;
+  padding: 92px 0 88px;
+  background: radial-gradient(
+    circle at 78% 18%,
+    rgba(201, 255, 74, 0.07),
+    transparent 28%
+  );
+}
+.marketplace-shell .topbar h1 {
+  max-width: 900px;
+  font-size: clamp(52px, 8vw, 102px);
+  letter-spacing: -0.055em;
+}
+.marketplace-shell .topbar h1 span {
+  white-space: nowrap;
+}
+.marketplace-shell .app-intro {
+  max-width: 1180px;
+  padding: 0 0 70px;
+  background: #121216;
+}
+.marketplace-shell .app-intro p {
+  padding: 28px 28px 0;
+}
+.marketplace-shell .wallet-strip {
+  padding: 25px 28px;
+  border-radius: 14px;
+  background: #19191e;
+}
+.marketplace-shell .profile-panel {
+  margin-top: 40px;
+  padding: 34px 0 60px;
+  background: #121216;
+}
+.marketplace-shell .job-composer {
+  padding: 70px 0 84px;
+  background: #142019;
+}
+.marketplace-shell .job-composer .composer-heading,
+.marketplace-shell .job-composer form,
+.marketplace-shell .job-composer > .form-error,
+.marketplace-shell .job-composer > .form-success {
+  max-width: 980px;
+  margin-inline: auto;
+}
+.marketplace-shell .job-composer h2 {
+  font-size: clamp(34px, 5vw, 58px);
+}
+.marketplace-shell .job-composer textarea {
+  min-height: 155px;
+  font-size: 18px;
+  line-height: 1.55;
+}
+.marketplace-shell .job-composer input,
+.marketplace-shell .job-composer textarea,
+.marketplace-shell .job-composer select,
+.marketplace-shell .job-composer .input-unit {
+  border-color: #33413a !important;
+  background: #101713;
+}
+.marketplace-shell .job-composer input:focus,
+.marketplace-shell .job-composer textarea:focus,
+.marketplace-shell .job-composer select:focus {
+  outline: 1px solid #ff553d;
+  outline-offset: 2px;
+  border-color: #ff553d !important;
+}
+.marketplace-shell .job-composer .form-actions {
+  margin-top: 18px;
+}
+.marketplace-shell .app-jobs-preview-heading {
+  padding: 84px 0 28px;
+  background: #0f0f11;
+}
+.marketplace-shell .discovery {
+  padding: 0 0 90px;
+  background: #0f0f11;
+}
+.marketplace-shell .job-row {
+  min-height: 78px;
+  padding: 0 24px;
+  background: #1a1a1e;
+}
+.marketplace-shell .job-row:hover {
+  background: #202026;
+  transform: translateX(4px);
+}
+.marketplace-shell .review,
+.marketplace-shell .settlement {
+  padding: 78px 0;
+  background: #121216;
+}
+.marketplace-shell .review-job,
+.marketplace-shell .action-row,
+.marketplace-shell .withdraw-row {
+  border: 0;
+  border-radius: 12px;
+  background: #1a1a1e;
+}
+.marketplace-shell .review-job {
+  padding: 28px;
+}
+.marketplace-shell .settlement .action-row {
+  margin-top: 10px;
+  padding: 20px 24px;
+}
+.marketplace-shell .deployment-details {
+  margin-top: 0;
+  padding: 70px 0;
+  background: #19191e;
+}
+.marketplace-shell .deployment-details .panel {
+  padding: 0 28px;
+}
+.marketplace-shell .next-step {
+  margin-top: 0;
+  padding: 84px 0 20px;
+  background: #0f0f11;
+}
+@media (max-width: 700px) {
+  .marketplace-shell .topbar {
+    min-height: 310px;
+    padding-top: 64px;
+  }
+  .marketplace-shell .app-intro p {
+    padding-inline: 20px;
+  }
+  .marketplace-shell .job-row {
+    min-height: 82px;
+  }
+  .marketplace-shell .deployment-details .panel {
+    padding-inline: 20px;
+  }
+  .marketplace-shell .topbar h1 {
+    font-size: clamp(40px, 12vw, 58px);
+  }
+}
+
 /* Final visual overrides */
 body {
   background: #0f0f11;
@@ -913,6 +1490,600 @@ button:hover:not(:disabled) {
 }
 .deployment-details {
   opacity: 0.78;
+}
+
+.marketplace-shell .hero-support {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  gap: 48px;
+  align-items: baseline;
+  width: 100%;
+  margin-top: 42px;
+}
+.marketplace-shell .hero-support p:first-child {
+  color: #eeeef0;
+  font-size: clamp(17px, 2vw, 22px);
+  font-weight: 600;
+  line-height: 1.45;
+  white-space: nowrap;
+}
+.marketplace-shell .hero-support p:last-child {
+  color: #6c6c74;
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: right;
+  white-space: nowrap;
+}
+@media (max-width: 700px) {
+  .marketplace-shell .hero-support {
+    display: grid;
+    gap: 12px;
+    margin-top: 30px;
+  }
+  .marketplace-shell .hero-support p:first-child,
+  .marketplace-shell .hero-support p:last-child {
+    text-align: left;
+    white-space: normal;
+  }
+}
+
+/* Final compact job surface */
+.marketplace-shell * {
+  border-color: transparent !important;
+}
+.app-jobs-preview-heading {
+  max-width: none;
+  width: 100%;
+  margin: 0 auto;
+  padding: 72px 0 20px;
+}
+.app-jobs-preview-heading h2 {
+  margin: 12px 0 0;
+  font-size: clamp(30px, 4vw, 48px);
+}
+.marketplace-shell .discovery {
+  max-width: none;
+  width: 100%;
+  padding: 0 0 72px;
+}
+.marketplace-shell .job-list {
+  display: grid;
+  gap: 8px;
+}
+.marketplace-shell .job-row {
+  display: grid;
+  gap: 0;
+  align-items: stretch;
+  min-height: 76px;
+  padding: 0 28px;
+  border-radius: 10px;
+  background: #1a1a1e;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease;
+}
+.marketplace-shell .job-row-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 150px 180px;
+  gap: 24px;
+  align-items: center;
+  min-height: 76px;
+}
+.marketplace-shell .job-row-title {
+  display: -webkit-box;
+  overflow: hidden;
+  color: #eeeef0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  line-height: 1.45;
+  white-space: normal;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.marketplace-shell .job-row-amount {
+  color: #c9ff4a;
+  font-size: 14px;
+  font-weight: 600;
+}
+.job-row-action,
+.job-row-status {
+  justify-self: end;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.job-row-action {
+  color: #c9ff4a;
+}
+.job-row-status {
+  color: #a0a0ab;
+}
+.job-row-status.state-4 {
+  color: #c9ff4a;
+}
+.job-row-action:hover {
+  color: #ff553d;
+}
+.job-details-page {
+  min-height: 100vh;
+  padding: 54px clamp(20px, 7vw, 110px) 100px;
+  background: #0f0f11;
+}
+.job-details-page > * {
+  max-width: 1152px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.job-details-page h1 {
+  margin-top: 22px;
+  font-size: clamp(38px, 6vw, 72px);
+}
+.job-details-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  gap: 80px;
+  margin-top: 58px;
+}
+.job-detail-status {
+  color: #c9ff4a;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.job-detail-description {
+  margin-top: 24px;
+  color: #eeeef0;
+  font-size: 20px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+.job-details-page h2 {
+  margin-top: 58px;
+  font-size: 30px;
+}
+.job-details-facts {
+  margin: 0;
+  padding: 24px;
+  border-radius: 12px;
+  background: #1a1a1e;
+}
+.job-details-facts div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px 0;
+}
+.job-details-facts span {
+  color: #6c6c74;
+  font-size: 13px;
+}
+.job-details-facts strong {
+  color: #eeeef0;
+  font-size: 13px;
+  text-align: right;
+}
+.job-apply-form {
+  display: grid;
+  gap: 16px;
+  margin-top: 34px;
+}
+.job-apply-form label {
+  display: grid;
+  gap: 10px;
+  color: #a0a0ab;
+  font-size: 13px;
+}
+.job-detail-note {
+  margin-top: 34px;
+  color: #6c6c74;
+}
+@media (max-width: 700px) {
+  .marketplace-shell .job-row {
+    padding: 0 16px;
+  }
+  .marketplace-shell .job-row-main {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px 14px;
+    min-height: 76px;
+  }
+  .marketplace-shell .job-row-amount {
+    grid-column: 1;
+  }
+  .job-row-action,
+  .job-row-status {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+  .job-details-layout {
+    grid-template-columns: 1fr;
+    gap: 42px;
+  }
+}
+
+/* Borderless discovery system */
+button,
+.landing-primary,
+.landing-secondary,
+.landing-launch {
+  border-radius: 8px;
+}
+.app-nav,
+.marketplace-shell .topbar,
+.marketplace-shell .wallet-strip {
+  border-color: transparent;
+}
+.job-item {
+  border: 0;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  padding: 22px 24px;
+  background: #1a1a1e;
+}
+.job-item:last-child {
+  border: 0;
+}
+.job-budget {
+  color: #c9ff4a;
+  font-size: 13px;
+}
+.job-open-link,
+.view-all-jobs {
+  display: inline-flex;
+  margin-top: 18px;
+  color: #c9ff4a;
+  font-weight: 700;
+  text-decoration: none;
+}
+.view-all-jobs {
+  margin-top: 28px;
+  font-size: 16px;
+}
+.jobs-page {
+  min-height: 100vh;
+  padding: 0 clamp(20px, 7vw, 110px) 70px;
+  background: #0f0f11;
+}
+.jobs-page-header {
+  max-width: 1152px;
+  margin: 0 auto;
+  padding: 90px 0 64px;
+}
+.jobs-page-header h1 {
+  margin: 20px 0 14px;
+  font-size: clamp(40px, 6vw, 74px);
+}
+.jobs-page-header > p:not(.landing-kicker) {
+  max-width: 520px;
+  font-size: 18px;
+}
+.jobs-page-header label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 34px;
+  color: #a0a0ab;
+  font-size: 13px;
+}
+.jobs-page-header select {
+  width: auto;
+  border-radius: 8px;
+}
+.jobs-page .discovery {
+  max-width: 1152px;
+  margin: 0 auto;
+  padding: 0;
+}
+.jobs-page .discovery .composer-heading {
+  display: none;
+}
+.jobs-back {
+  display: inline-flex;
+  margin-top: 42px;
+  color: #a0a0ab;
+  text-decoration: none;
+}
+.jobs-back:hover {
+  color: #c9ff4a;
+}
+.marketplace-shell .discovery .job-item {
+  grid-template-columns: 100px minmax(150px, 0.55fr) 1.45fr;
+}
+@media (max-width: 760px) {
+  .jobs-page-header {
+    padding-top: 60px;
+  }
+  .marketplace-shell .discovery .job-item {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Marketplace shares the landing page's product shell. */
+.marketplace-shell {
+  min-height: 100vh;
+}
+.app-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 72px;
+  max-width: 1152px;
+  margin: 0 auto;
+  border-bottom: 1px solid #2a2a2f;
+  background: rgba(15, 15, 17, 0.92);
+  backdrop-filter: blur(16px);
+}
+.app-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+.app-nav-links a,
+.app-nav-links span {
+  color: #a0a0ab;
+  font-size: 12px;
+  text-decoration: none;
+}
+.app-nav-links span {
+  color: #c9ff4a;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.app-nav-links a:hover {
+  color: #c9ff4a;
+}
+.marketplace-shell .topbar {
+  min-height: 330px;
+  padding-top: 80px;
+  border-bottom: 1px solid #2a2a2f;
+}
+.marketplace-shell .topbar .eyebrow {
+  color: #c9ff4a;
+}
+.marketplace-shell .topbar h1 {
+  font-size: clamp(42px, 6vw, 74px);
+}
+.marketplace-shell .app-intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 40px;
+  padding: 34px 0 42px;
+  border-bottom: 0;
+}
+.marketplace-shell .app-intro p {
+  max-width: 420px;
+  margin: 0;
+  font-size: 16px;
+}
+.marketplace-shell .app-intro p + p {
+  color: #6c6c74;
+  font-size: 13px;
+  text-align: right;
+}
+.marketplace-shell .wallet-strip {
+  margin-top: 0;
+  padding: 24px 0;
+  border-top: 1px solid #2a2a2f;
+  border-bottom: 1px solid #2a2a2f;
+}
+.marketplace-shell .job-composer,
+.marketplace-shell .discovery,
+.marketplace-shell .review,
+.marketplace-shell .settlement,
+.marketplace-shell .profile-panel,
+.marketplace-shell .deployment-details,
+.marketplace-shell .next-step {
+  max-width: 1152px;
+}
+.marketplace-shell .composer-heading h2 {
+  font-size: clamp(30px, 4vw, 48px);
+}
+.marketplace-shell .job-item {
+  transition: background 160ms ease;
+}
+.marketplace-shell .job-item:hover {
+  background: rgba(201, 255, 74, 0.035);
+}
+.marketplace-shell .deployment-details {
+  margin-top: 40px;
+  background: #142019;
+}
+.marketplace-shell .app-jobs-preview-heading,
+.marketplace-shell .discovery {
+  max-width: none;
+  width: 100%;
+}
+.marketplace-shell .job-row {
+  min-height: 76px;
+  padding: 14px 28px;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+.marketplace-shell .job-row:hover {
+  z-index: 2;
+  transform: translateY(-4px) scale(1.004);
+  background: #202026;
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.28);
+}
+.marketplace-shell .job-row-detail {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    grid-template-rows 220ms ease,
+    opacity 180ms ease,
+    padding 220ms ease;
+}
+.marketplace-shell .job-row-detail > * {
+  min-height: 0;
+  margin: 0;
+}
+.marketplace-shell .job-row-detail p {
+  color: #eeeef0;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+.marketplace-shell .job-row-detail dl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 14px;
+}
+.marketplace-shell .job-row-detail dl div {
+  display: flex;
+  gap: 8px;
+}
+.marketplace-shell .job-row-detail dt {
+  color: #6c6c74;
+  font-size: 12px;
+}
+.marketplace-shell .job-row-detail dd {
+  color: #c9ff4a;
+  font-size: 12px;
+}
+.marketplace-shell .job-row.is-expanded {
+  padding-bottom: 22px;
+  background: #202026;
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.28);
+}
+.marketplace-shell .job-row.is-expanded .job-row-detail {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  padding-top: 8px;
+}
+.marketplace-shell .job-row.is-expanded .job-row-title {
+  visibility: hidden;
+}
+@media (hover: hover) and (pointer: fine) {
+  .marketplace-shell .job-row:hover {
+    padding-bottom: 22px;
+  }
+  .marketplace-shell .job-row:hover .job-row-detail {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    padding-top: 8px;
+  }
+  .marketplace-shell .job-row:hover .job-row-title {
+    visibility: hidden;
+  }
+}
+
+/* Compact job rows: reveal context in an anchored tooltip without resizing rows. */
+.marketplace-shell .job-row {
+  position: relative;
+}
+.marketplace-shell .job-row:hover {
+  padding: 22px 28px;
+  transform: translateY(-4px) scale(1.004);
+}
+.marketplace-shell .job-row-detail,
+.marketplace-shell .job-row.is-expanded .job-row-detail {
+  display: none;
+}
+.marketplace-shell .job-row-tooltip {
+  position: absolute;
+  right: 24px;
+  bottom: calc(100% + 10px);
+  left: 24px;
+  z-index: 20;
+  padding: 16px 18px;
+  border-radius: 10px;
+  color: #eeeef0;
+  background: #202026;
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.28);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(6px);
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+.marketplace-shell .job-row-tooltip strong {
+  display: block;
+  color: #eeeef0;
+  font-size: 14px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+.marketplace-shell .job-row-tooltip p {
+  margin: 8px 0 0;
+  color: #a0a0ab;
+  font-size: 12px;
+}
+.marketplace-shell .job-row-tooltip dl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 22px;
+  margin: 12px 0 0;
+}
+.marketplace-shell .job-row-tooltip dl div {
+  display: flex;
+  gap: 7px;
+  font-size: 12px;
+}
+.marketplace-shell .job-row-tooltip dt {
+  color: #6c6c74;
+}
+.marketplace-shell .job-row-tooltip dd {
+  margin: 0;
+  color: #c9ff4a;
+}
+.marketplace-shell .job-row:hover .job-row-tooltip,
+.marketplace-shell .job-row:focus-visible .job-row-tooltip {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  opacity: 1;
+  transform: translateY(0);
+}
+.marketplace-shell .job-row:hover .job-row-main,
+.marketplace-shell .job-row:focus-visible .job-row-main {
+  display: none;
+}
+@media (max-width: 700px) {
+  .marketplace-shell .job-row:hover,
+  .marketplace-shell .job-row:focus-visible {
+    padding: 20px 16px;
+  }
+  .marketplace-shell .job-row-tooltip {
+    right: 12px;
+    left: 12px;
+  }
+}
+@media (max-width: 760px) {
+  .app-nav {
+    margin: 0;
+  }
+  .app-nav-links span {
+    display: none;
+  }
+  .marketplace-shell .topbar {
+    min-height: 260px;
+    padding-top: 56px;
+  }
+  .marketplace-shell .app-intro {
+    display: block;
+  }
+  .marketplace-shell .app-intro p + p {
+    margin-top: 16px;
+    text-align: left;
+  }
 }
 
 @media (max-width: 760px) {

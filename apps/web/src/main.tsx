@@ -12,10 +12,14 @@ import {
   type EIP1193Provider,
 } from 'viem';
 import { CreateJobForm, type CreateJobInput } from './components/CreateJobForm';
-import { JobDiscovery, type JobView } from './components/JobDiscovery';
+import { JobDiscovery } from './components/JobDiscovery';
+import type { JobView } from './components/JobTypes';
 import { CreatorReview, type ReviewJob } from './components/CreatorReview';
 import { ProfilePanel } from './components/ProfilePanel';
 import { SettlementActions } from './components/SettlementActions';
+import { LandingPage } from './components/LandingPage';
+import { JobsPage } from './components/JobsPage';
+import { JobDetailsPage } from './components/JobDetailsPage';
 import { ruveltJobsAbi } from './contracts/RuveltJobs.abi';
 import './styles.css';
 
@@ -63,8 +67,11 @@ const publicClient = createPublicClient({
 const applicationSubmittedEvent = parseAbiItem(
   'event ApplicationSubmitted(uint256 indexed jobId, address indexed applicant, string proposalRef)',
 );
+const jobCreatedEvent = parseAbiItem(
+  'event JobCreated(uint256 indexed jobId, address indexed creator, uint256 budget, uint64 applicationDeadline, uint64 deliveryDeadline, string detailsRef)',
+);
 
-function App() {
+function MarketplaceApp() {
   const [network, setNetwork] = useState<'checking' | 'online' | 'offline'>(
     'checking',
   );
@@ -314,6 +321,17 @@ function App() {
             args: { jobId: id },
             fromBlock: 0n,
           });
+          const createdLogs = await publicClient.getLogs({
+            address: config.contractAddress as Address,
+            event: jobCreatedEvent,
+            args: { jobId: id },
+            fromBlock: 0n,
+          });
+          const createdBlock = createdLogs[0]?.blockNumber;
+          const createdAt = createdBlock
+            ? (await publicClient.getBlock({ blockNumber: createdBlock }))
+                .timestamp
+            : 0n;
           const selectedContributors =
             job.state >= 2 && job.state <= 3
               ? await publicClient.readContract({
@@ -349,6 +367,7 @@ function App() {
               : undefined;
           return {
             id,
+            createdAt,
             creator: job.creator,
             budget: job.budget,
             applicationDeadline: job.applicationDeadline,
@@ -582,11 +601,36 @@ function App() {
 
   const explorerContract = `${config.explorerUrl}/address/${config.contractAddress}`;
 
+  if (window.location.pathname.startsWith('/jobs')) {
+    const detailMatch = window.location.pathname.match(/^\/jobs\/(\d+)$/);
+    if (detailMatch) {
+      const detailJob = jobs.find((job) => job.id === BigInt(detailMatch[1]!));
+      return (
+        <JobDetailsPage
+          job={detailJob}
+          account={account}
+          pending={applicationPendingJobId !== undefined}
+          onApply={applyToJob}
+        />
+      );
+    }
+    return <JobsPage jobs={jobs} loading={jobsLoading} />;
+  }
+
   return (
-    <main>
+    <main className="marketplace-shell">
+      <nav className="app-nav" aria-label="Marketplace navigation">
+        <a className="landing-brand" href="/">
+          Ruvelt<span>.</span>
+        </a>
+        <div className="app-nav-links">
+          <a href="/">About Ruvelt</a>
+          <span>BOT Chain Testnet</span>
+        </div>
+      </nav>
       <header className="topbar">
         <div>
-          <p className="eyebrow">Ruvelt</p>
+          <p className="eyebrow">Live marketplace</p>
           <h1>
             Find work.
             <br />
@@ -604,12 +648,11 @@ function App() {
               ? 'Disconnect wallet'
               : 'Connect wallet'}
         </button>
+        <div className="hero-support">
+          <p>The economic layer for agent work on BOT Chain.</p>
+          <p>Post jobs. Coordinate agents. Settle onchain.</p>
+        </div>
       </header>
-
-      <section className="intro">
-        <p>The economic layer for agent work on BOT Chain.</p>
-        <p>Post jobs. Coordinate agents. Settle onchain.</p>
-      </section>
 
       {(account || walletMessage || walletStatus === 'unsupported') && (
         <section className="wallet-strip" aria-live="polite">
@@ -657,15 +700,15 @@ function App() {
         onSubmit={createJob}
       />
 
+      <section className="app-jobs-preview-heading">
+        <p className="landing-kicker">Latest opportunities</p>
+        <h2>Open jobs</h2>
+      </section>
       <JobDiscovery
         jobs={jobs}
         loading={jobsLoading}
+        preview
         connectedAccount={account}
-        pendingJobId={applicationPendingJobId}
-        error={jobsError}
-        explorerUrl={config.explorerUrl}
-        onRefresh={loadJobs}
-        onApply={applyToJob}
       />
 
       <CreatorReview
@@ -751,6 +794,11 @@ if (!root) {
 
 createRoot(root).render(
   <StrictMode>
-    <App />
+    {window.location.pathname.startsWith('/app') ||
+    window.location.pathname.startsWith('/jobs') ? (
+      <MarketplaceApp />
+    ) : (
+      <LandingPage />
+    )}
   </StrictMode>,
 );

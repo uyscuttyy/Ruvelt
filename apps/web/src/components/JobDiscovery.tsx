@@ -1,192 +1,133 @@
-import { useState, type FormEvent } from 'react';
 import { formatEther } from 'viem';
-
-export type JobView = {
-  id: bigint;
-  creator: string;
-  budget: bigint;
-  applicationDeadline: bigint;
-  deliveryDeadline: bigint;
-  state: number;
-  detailsRef: string;
-  application?: { exists: boolean; proposalRef: string };
-  applications: { applicant: string; proposalRef: string }[];
-  selectedContributors?: string[];
-  contributorAllocation?: bigint;
-  workReference?: string;
-};
+import { useState } from 'react';
+import type { JobView } from './JobTypes';
 
 type Props = {
   jobs: JobView[];
   loading: boolean;
+  preview?: boolean;
   connectedAccount?: string;
-  pendingJobId?: bigint;
-  error?: string;
-  explorerUrl: string;
-  onRefresh(): Promise<void>;
-  onApply(jobId: bigint, proposalRef: string, update: boolean): Promise<void>;
 };
 
-const stateLabels = [
-  'Unfunded',
-  'Open',
-  'Selected',
-  'Delivered',
-  'Settled',
-  'Cancelled',
-];
-
-function formatDate(seconds: bigint) {
-  return new Date(Number(seconds) * 1000).toLocaleString();
+function actionFor(job: JobView) {
+  if (job.state === 4) return { label: 'Settled', active: false };
+  if (job.state === 1 && job.applicationDeadline * 1000n > BigInt(Date.now())) {
+    return { label: 'Apply', active: true };
+  }
+  return { label: 'Application closed', active: false };
 }
 
-function isReference(value: string) {
-  return /^(https?:\/\/|ipfs:\/\/)/i.test(value);
+function shortTitle(value: string) {
+  const clean = value.trim().replace(/\s+/g, ' ');
+  return clean.length > 78 ? `${clean.slice(0, 78)}…` : clean || 'Untitled job';
+}
+
+export function JobRow({
+  job,
+  connectedAccount,
+}: {
+  job: JobView;
+  connectedAccount?: string;
+}) {
+  const action = actionFor(job);
+  const selected = Boolean(
+    connectedAccount &&
+      job.selectedContributors?.some(
+        (contributor) =>
+          contributor.toLowerCase() === connectedAccount.toLowerCase(),
+      ),
+  );
+  const relationship = selected
+    ? `Selected contributor · ${job.contributorAllocation ? formatEther(job.contributorAllocation) : '0'} BOT allocated`
+    : job.application?.exists
+      ? 'Application submitted'
+      : 'No application from this wallet';
+  return (
+    <div
+      className="job-row"
+      tabIndex={0}
+      aria-label={`Inspect job: ${job.detailsRef}`}
+    >
+      <div className="job-row-main">
+        <strong className="job-row-title">{shortTitle(job.detailsRef)}</strong>
+        <span className="job-row-amount">{formatEther(job.budget)} BOT</span>
+        {action.active ? (
+          <a
+            className="job-row-action"
+            href={`/jobs/${job.id.toString()}`}
+            onClick={(event) => event.stopPropagation()}
+          >
+            {action.label} <span aria-hidden="true">→</span>
+          </a>
+        ) : (
+          <span className={`job-row-status state-${job.state}`}>
+            {action.label}
+          </span>
+        )}
+      </div>
+      <div className="job-row-tooltip" role="tooltip">
+        <strong>{job.detailsRef}</strong>
+        <p>{relationship}</p>
+        <dl>
+          <div>
+            <dt>Budget</dt>
+            <dd>{formatEther(job.budget)} BOT</dd>
+          </div>
+          <div>
+            <dt>Applications close</dt>
+            <dd>
+              {new Date(
+                Number(job.applicationDeadline) * 1000,
+              ).toLocaleString()}
+            </dd>
+          </div>
+          <div>
+            <dt>Delivery due</dt>
+            <dd>
+              {new Date(Number(job.deliveryDeadline) * 1000).toLocaleString()}
+            </dd>
+          </div>
+          <div>
+            <dt>Status</dt>
+            <dd>{action.label}</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  );
 }
 
 export function JobDiscovery({
   jobs,
   loading,
+  preview = false,
   connectedAccount,
-  pendingJobId,
-  error,
-  explorerUrl,
-  onRefresh,
-  onApply,
 }: Props) {
-  const [proposals, setProposals] = useState<Record<string, string>>({});
-
-  function submit(event: FormEvent<HTMLFormElement>, job: JobView) {
-    event.preventDefault();
-    const proposal =
-      proposals[job.id.toString()]?.trim() ||
-      job.application?.proposalRef ||
-      '';
-    if (!proposal) return;
-    void onApply(job.id, proposal, Boolean(job.application?.exists));
-  }
-
+  const ordered = [...jobs].sort((a, b) => Number(b.createdAt - a.createdAt));
+  const visible = preview ? ordered.slice(0, 4) : ordered;
   return (
     <section className="discovery" aria-labelledby="discovery-title">
-      <div className="composer-heading">
-        <div>
-          <p className="label">Public marketplace</p>
-          <h2 id="discovery-title">Open jobs</h2>
-        </div>
-        <button
-          className="button-secondary"
-          type="button"
-          onClick={() => void onRefresh()}
-          disabled={loading}
-        >
-          {loading ? 'Loading…' : 'Refresh'}
-        </button>
-      </div>
-      {error && (
-        <p className="form-error" role="alert">
-          {error}
-        </p>
-      )}
-      {!loading && jobs.length === 0 && (
-        <div className="empty-state">
-          <strong>No jobs posted yet</strong>
-          <p>
-            The first funded job will appear here after its transaction
-            confirms.
-          </p>
+      {!preview && <h2 id="discovery-title">Jobs</h2>}
+      {loading ? (
+        <p className="job-empty">Loading jobs…</p>
+      ) : visible.length === 0 ? (
+        <p className="job-empty">No jobs have been posted yet.</p>
+      ) : (
+        <div className="job-list">
+          {visible.map((job) => (
+            <JobRow
+              job={job}
+              connectedAccount={connectedAccount}
+              key={job.id.toString()}
+            />
+          ))}
         </div>
       )}
-      <div className="job-list">
-        {jobs.map((job) => {
-          const accepting =
-            job.state === 1 &&
-            job.applicationDeadline * 1000n > BigInt(Date.now());
-          const isCreator =
-            connectedAccount?.toLowerCase() === job.creator.toLowerCase();
-          return (
-            <article className="job-item" key={job.id.toString()}>
-              <div className="job-meta">
-                <span>JOB #{job.id.toString()}</span>
-                <span>{stateLabels[job.state] ?? 'Unknown'}</span>
-              </div>
-              <h3>{formatEther(job.budget)} BOT</h3>
-              <p className="job-description">{job.detailsRef}</p>
-              {isReference(job.detailsRef) && (
-                <a href={job.detailsRef} target="_blank" rel="noreferrer">
-                  Open reference ↗
-                </a>
-              )}
-              <dl>
-                <div>
-                  <dt>Applications close</dt>
-                  <dd>{formatDate(job.applicationDeadline)}</dd>
-                </div>
-                <div>
-                  <dt>Delivery due</dt>
-                  <dd>{formatDate(job.deliveryDeadline)}</dd>
-                </div>
-                <div>
-                  <dt>Creator</dt>
-                  <dd>
-                    <a
-                      href={`${explorerUrl}/address/${job.creator}`}
-                      target="_blank"
-                      rel="noreferrer"
-                    >{`${job.creator.slice(0, 6)}…${job.creator.slice(-4)}`}</a>
-                  </dd>
-                </div>
-              </dl>
-              {!isCreator && (
-                <form
-                  className="application-form"
-                  onSubmit={(event) => submit(event, job)}
-                >
-                  <label className="field">
-                    <span>
-                      {job.application?.exists
-                        ? 'Update application'
-                        : 'Apply to this job'}
-                    </span>
-                    <textarea
-                      rows={3}
-                      required
-                      placeholder="Tell the creator how you will approach the work."
-                      value={
-                        proposals[job.id.toString()] ??
-                        job.application?.proposalRef ??
-                        ''
-                      }
-                      onChange={(event) =>
-                        setProposals((current) => ({
-                          ...current,
-                          [job.id.toString()]: event.target.value,
-                        }))
-                      }
-                    />
-                  </label>
-                  <button
-                    type="submit"
-                    disabled={
-                      !connectedAccount || !accepting || pendingJobId === job.id
-                    }
-                  >
-                    {pendingJobId === job.id
-                      ? 'Confirming…'
-                      : job.application?.exists
-                        ? 'Update application'
-                        : 'Apply now'}
-                  </button>
-                  {!accepting && (
-                    <p className="form-note">
-                      Applications are closed for this job.
-                    </p>
-                  )}
-                </form>
-              )}
-            </article>
-          );
-        })}
-      </div>
+      {preview && (
+        <a className="view-all-jobs" href="/jobs">
+          View all jobs →
+        </a>
+      )}
     </section>
   );
 }
