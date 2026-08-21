@@ -158,7 +158,7 @@ becomes:
 
 Try the marketplace at **https://ruvelt.onrender.com**.
 
-Use two funded BOT Chain Testnet wallets to experience the complete flow:
+Use two funded BOT Chain Mainnet wallets to experience the complete flow:
 
 ```text
 Creator      -> Post job -> Fund escrow
@@ -180,19 +180,19 @@ Every write is signed by the active wallet and can be inspected on BOT Scan.
 
 ## Deployment
 
-Ruvelt is currently deployed on **BOT Chain Testnet**.
+Ruvelt is currently deployed on **BOT Chain Mainnet**.
 
 | Setting                | Value                                                                                                                                                                  |
 | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Network                | BOT Chain Testnet                                                                                                                                                      |
-| Chain ID               | `968`                                                                                                                                                                  |
+| Network                | BOT Chain Mainnet                                                                                                                                                      |
+| Chain ID               | `677`                                                                                                                                                                  |
 | Currency               | BOT                                                                                                                                                                    |
-| RPC                    | `https://rpc.bohr.life`                                                                                                                                                |
-| Explorer               | [BOT Scan](https://www.botscans.net)                                                                                                                                   |
-| Contract               | [`0xf13ad20A3e912978Ab683b95AAdD9832d008ae0c`](https://www.botscans.net/address/0xf13ad20A3e912978Ab683b95AAdD9832d008ae0c)                                            |
-| Deployment transaction | [`0xe8877c33ba1f293e5493e41b42ceda07a1a8e7cf7b5f7ba08857de5729adea27`](https://www.botscans.net/tx/0xe8877c33ba1f293e5493e41b42ceda07a1a8e7cf7b5f7ba08857de5729adea27) |
+| RPC                    | `https://rpc.botchain.ai`                                                                                                                                              |
+| Explorer               | [BOT Scan](https://scan.botchain.ai)                                                                                                                                   |
+| Contract               | [`0x716348fb2d40f96e8511e27cf833a0d8e6f52fa8`](https://scan.botchain.ai/address/0x716348fb2d40f96e8511e27cf833a0d8e6f52fa8)                                            |
+| Deployment transaction | [`0xd4b440ec26f8055f169f2d398241173fec9a51d642ecbfe5bec35a6efa4689c7`](https://scan.botchain.ai/tx/0xd4b440ec26f8055f169f2d398241173fec9a51d642ecbfe5bec35a6efa4689c7) |
 
-The complete receipt is documented in `contracts/deployments/bot-chain-testnet.md`.
+The historical testnet receipt remains documented in `contracts/deployments/bot-chain-testnet.md`.
 
 ## Run Locally
 
@@ -209,11 +209,11 @@ The application normally runs at `http://localhost:5173`.
 Frontend configuration:
 
 ```dotenv
-VITE_BOT_CHAIN_ID=968
-VITE_BOT_CHAIN_NAME="BOT Chain Testnet"
-VITE_BOT_RPC_URL=https://rpc.bohr.life
-VITE_BOT_BLOCK_EXPLORER_URL=https://www.botscans.net
-VITE_RUVELT_CONTRACT_ADDRESS=0xf13ad20A3e912978Ab683b95AAdD9832d008ae0c
+VITE_BOT_CHAIN_ID=677
+VITE_BOT_CHAIN_NAME="BOT Chain"
+VITE_BOT_RPC_URL=https://rpc.botchain.ai
+VITE_BOT_BLOCK_EXPLORER_URL=https://scan.botchain.ai
+VITE_RUVELT_CONTRACT_ADDRESS=0x716348fb2d40f96e8511e27cf833a0d8e6f52fa8
 ```
 
 Never put private keys in `VITE_` environment variables. Vite exposes them to the browser. Users
@@ -234,8 +234,8 @@ For the complete read-only release audit:
 
 ```bash
 set -a; source .env; set +a
-export BOT_CHAIN_ID=968
-export VITE_RUVELT_CONTRACT_ADDRESS=0xf13ad20A3e912978Ab683b95AAdD9832d008ae0c
+export BOT_CHAIN_ID=677
+export VITE_RUVELT_CONTRACT_ADDRESS=0x716348fb2d40f96e8511e27cf833a0d8e6f52fa8
 npm run final:audit
 ```
 

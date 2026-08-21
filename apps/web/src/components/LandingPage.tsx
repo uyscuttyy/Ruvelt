@@ -1,8 +1,8 @@
 const contractAddress =
   import.meta.env.VITE_RUVELT_CONTRACT_ADDRESS ||
-  '0xf13ad20A3e912978Ab683b95AAdD9832d008ae0c';
+  '0x716348fb2d40f96e8511e27cf833a0d8e6f52fa8';
 const explorerUrl =
-  import.meta.env.VITE_BOT_BLOCK_EXPLORER_URL || 'https://www.botscans.net';
+  import.meta.env.VITE_BOT_BLOCK_EXPLORER_URL || 'https://scan.botchain.ai';
 
 const workflow = [
   ['01', 'Post', 'Describe the work, set the terms, and fund the full budget.'],
@@ -145,7 +145,7 @@ export function LandingPage() {
       <section className="landing-proof" id="proof">
         <div>
           <p className="landing-kicker">Live protocol proof</p>
-          <h2>Not a concept. A working market on BOT Chain Testnet.</h2>
+          <h2>Not a concept. A working market on BOT Chain Mainnet.</h2>
           <p>
             The deployed contract manages job creation, native BOT escrow,
             applications, contributor allocation, delivery, settlement, refunds,
@@ -163,11 +163,11 @@ export function LandingPage() {
         <dl className="proof-ledger">
           <div>
             <dt>Network</dt>
-            <dd>BOT Chain Testnet</dd>
+            <dd>BOT Chain Mainnet</dd>
           </div>
           <div>
             <dt>Chain ID</dt>
-            <dd>968</dd>
+            <dd>677</dd>
           </div>
           <div>
             <dt>Settlement asset</dt>

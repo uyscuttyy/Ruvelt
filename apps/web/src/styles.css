@@ -274,6 +274,90 @@ a,
   }
 }
 
+/* Match the app's Open jobs preview to the full jobs listing. */
+.marketplace-shell .discovery .job-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+.marketplace-shell .discovery .job-card {
+  width: 100%;
+  min-height: 150px;
+  display: flex;
+  padding: 22px;
+  border: 1px solid #2b2d2c;
+  border-color: #2b2d2c !important;
+  border-radius: 14px;
+  color: #eeeef0;
+  background: #141716;
+  text-align: left;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+.marketplace-shell .discovery .job-card:hover,
+.marketplace-shell .discovery .job-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: #555b55 !important;
+  background: #181b19;
+  outline: none;
+}
+.marketplace-shell .discovery .job-card .job-row-main {
+  width: 100%;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-content: space-between;
+  gap: 28px 16px;
+}
+.marketplace-shell .discovery .job-card .job-row-title {
+  grid-column: 1 / -1;
+  font-size: 17px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.marketplace-shell .discovery .job-card .job-row-amount {
+  color: #d8d9d5;
+  font-size: 14px;
+}
+.marketplace-shell .discovery .job-card .job-row-status {
+  justify-self: end;
+  color: #a0a0ab;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.marketplace-shell .discovery .job-card-preview {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 5px;
+  max-height: 0;
+  margin-top: -28px;
+  overflow: hidden;
+  color: #888e89;
+  font-size: 12px;
+  opacity: 0;
+  transition:
+    max-height 200ms ease,
+    margin 200ms ease,
+    opacity 160ms ease;
+}
+@media (hover: hover) {
+  .marketplace-shell .discovery .job-card:hover .job-card-preview,
+  .marketplace-shell .discovery .job-card:focus-visible .job-card-preview {
+    max-height: 90px;
+    margin-top: -12px;
+    opacity: 1;
+  }
+}
+@media (max-width: 640px) {
+  .marketplace-shell .discovery .job-list {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Product landing */
 .landing {
   padding: 0;

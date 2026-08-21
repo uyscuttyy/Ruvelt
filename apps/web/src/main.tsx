@@ -42,14 +42,14 @@ declare global {
 }
 
 const config = {
-  chainId: Number(import.meta.env.VITE_BOT_CHAIN_ID || 968),
-  chainName: import.meta.env.VITE_BOT_CHAIN_NAME || 'BOT Chain Testnet',
-  rpcUrl: import.meta.env.VITE_BOT_RPC_URL || 'https://rpc.bohr.life',
+  chainId: Number(import.meta.env.VITE_BOT_CHAIN_ID || 677),
+  chainName: import.meta.env.VITE_BOT_CHAIN_NAME || 'BOT Chain',
+  rpcUrl: import.meta.env.VITE_BOT_RPC_URL || 'https://rpc.botchain.ai',
   explorerUrl:
-    import.meta.env.VITE_BOT_BLOCK_EXPLORER_URL || 'https://www.botscans.net',
+    import.meta.env.VITE_BOT_BLOCK_EXPLORER_URL || 'https://scan.botchain.ai',
   contractAddress:
     import.meta.env.VITE_RUVELT_CONTRACT_ADDRESS ||
-    '0xf13ad20A3e912978Ab683b95AAdD9832d008ae0c',
+    '0x716348fb2d40f96e8511e27cf833a0d8e6f52fa8',
 };
 
 const botChain = defineChain({
@@ -627,7 +627,7 @@ function MarketplaceApp() {
         </a>
         <div className="app-nav-links">
           <a href="/">About Ruvelt</a>
-          <span>BOT Chain Testnet</span>
+          <span>BOT Chain Mainnet</span>
         </div>
       </nav>
       <header className="topbar">
@@ -779,7 +779,7 @@ function MarketplaceApp() {
           <h2>Workflows are live</h2>
           <p>
             Posting, discovery, selection, delivery, settlement, and earnings
-            are available on BOT Chain Testnet.
+            are available on BOT Chain Mainnet.
           </p>
         </div>
         <span className="phase">LIVE</span>
